@@ -1,13 +1,43 @@
+{% load static %}
 <html>
-<body>
-<center><h1>MLGuard Statistics</h1></center>
-<h2>Year</h2>
-{{year|safe}}
-<h2>Month</h2>
-{{month|safe}}
-<h2>Day</h2>
-{{day|safe}}
-<h2>Date</h2>
-{{date|safe}}
-</body>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    </head>
+    <body>
+        <div class="row" style="margin-top:40px">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <center><h1>MLGuard Statistics</h1></center>
+            </div>
+        </div>
+        <div class="row" style="margin-top:40px">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="table">
+                    <center>
+                        <h3>Year</h3>
+                        {{year|safe}}
+                    </center>
+                </div>
+                <div class="table" style="margin-top:40px">
+                    <center>
+                        <h3>Month</h3>
+                        {{month|safe}}
+                    </center>
+                </div>
+                <div class="table" style="margin-top:40px">
+                    <center>
+                        <h3>Day</h3>
+                        {{day|safe}}
+                    </center>
+                </div>
+                <div class="table" style="margin-top:40px">
+                    <center>
+                        <h3>Date</h3>
+                        {{date|safe}}
+                    </center>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
