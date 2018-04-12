@@ -6,7 +6,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from IPython.display import display, HTML
 import MySQLdb
-import pandas as pd
 import datetime as dt
 from collections import OrderedDict
 

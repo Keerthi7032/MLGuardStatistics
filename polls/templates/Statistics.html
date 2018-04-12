@@ -2,40 +2,85 @@
 <html>
     <head>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <style>
+            .nav-tabs { border-bottom: 2px solid #DDD; }
+            .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
+            .nav-tabs > li > a { border: none; color: #666; }
+            .nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #4285F4 !important; background: transparent; }
+            .nav-tabs > li > a::after { content: ""; background: #4285F4; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
+            .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+            .tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
+            .tab-pane { padding: 15px 0; }
+            .tab-content{padding:20px}
+            .card {background: #FFF none repeat scroll 0% 0%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); margin-bottom: 30px; }
+            body
+            {
+                background: #EDECEC;
+                padding:50px;
+                margin: 0 !important;
+                height: 100% !important;
+                overflow: auto !important;
+                font-family: montserrat, arial, verdana !important;
+            }
+        </style>
     </head>
     <body>
-        <div class="row" style="margin-top:40px">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10">
-                <center><h1>MLGuard Statistics</h1></center>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="card">
+                        <center><h2>MLGuard Statistics</h2></center>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row" style="margin-top:40px">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10">
-                <div class="table">
-                    <center>
-                        <h3>Year</h3>
-                        {{year|safe}}
-                    </center>
-                </div>
-                <div class="table" style="margin-top:40px">
-                    <center>
-                        <h3>Month</h3>
-                        {{month|safe}}
-                    </center>
-                </div>
-                <div class="table" style="margin-top:40px">
-                    <center>
-                        <h3>Day</h3>
-                        {{day|safe}}
-                    </center>
-                </div>
-                <div class="table" style="margin-top:40px">
-                    <center>
-                        <h3>Date</h3>
-                        {{date|safe}}
-                    </center>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="card">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#year" aria-controls="year" role="tab" data-toggle="tab">Year</a></li>
+                            <li role="presentation"><a href="#month" aria-controls="month" role="tab" data-toggle="tab">Month</a></li>
+                            <li role="presentation"><a href="#day" aria-controls="day" role="tab" data-toggle="tab">Day</a></li>
+                            <li role="presentation"><a href="#date" aria-controls="date" role="tab" data-toggle="tab">Date</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="year">
+                                <div class="table">
+                                    <center>
+                                        {{year|safe}}
+                                    </center>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="month">
+                                <div class="table">
+                                    <center>
+                                        {{month|safe}}
+                                    </center>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="day">
+                                <div class="table">
+                                    <center>
+                                        {{day|safe}}
+                                    </center>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="date">
+                                <div class="table">
+                                    <center>
+                                        {{date|safe}}
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
