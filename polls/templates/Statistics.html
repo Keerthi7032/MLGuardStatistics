@@ -48,6 +48,8 @@
                             <li role="presentation"><a href="#month" aria-controls="month" role="tab" data-toggle="tab">Month</a></li>
                             <li role="presentation"><a href="#day" aria-controls="day" role="tab" data-toggle="tab">Day</a></li>
                             <li role="presentation"><a href="#date" aria-controls="date" role="tab" data-toggle="tab">Date</a></li>
+                            <li role="presentation"><a href="#uptime" aria-controls="uptime" role="tab" data-toggle="tab">Up-Time</a></li>
+                            <li role="presentation"><a href="#downtime" aria-controls="downtime" role="tab" data-toggle="tab">Down-Time</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -76,6 +78,20 @@
                                 <div class="table">
                                     <center>
                                         {{date|safe}}
+                                    </center>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="uptime">
+                                <div class="table">
+                                    <center>
+                                        {{uptime|safe}}
+                                    </center>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="downtime">
+                                <div class="table">
+                                    <center>
+                                        {{downtime|safe}}
                                     </center>
                                 </div>
                             </div>
