@@ -28,7 +28,7 @@ def get_for(st,df):
 def get_statistics(df,company,uni_cid,grouped):
     inter_lis=[]
     dic2={}
-    for name,group in grouped:
+    for name, group in grouped:
         #print(name)
         #print(group['cid'].count())
         if(name[0] in dic2.keys()):
@@ -36,16 +36,18 @@ def get_statistics(df,company,uni_cid,grouped):
         else:
             dic2[name[0]]=dict(zip(list(company.values()),[0]*len(uni_cid)))
             dic2[name[0]][company[name[1]]]=group['cid'].count()
-    print(dic2)
+    # print(dic2)
     dic3={}
     for i in dic2.keys():
         dictlist=[]
         for key, value in dic2[i].items():
             temp = [key,value]
             dictlist.append(temp)
-        dic2[i]=dictlist
-    #print(dic3)
-    return dic2
+        temp_date = i
+        dic3[str(temp_date)]=dictlist
+        # print(str(i))
+    # print(dic2)
+    return dic3
 
 def get():
     div=[]
@@ -139,9 +141,9 @@ def get_connection():
 def get_cid(email):
     conn = get_connection()
     cur = conn.cursor()
-    query = "select cid from admin where email=" + "'" + str(
-        email) + "' and cid in (select cid from company where pid=2)"
+    query = "select cid from company where email='" + str(email) + "'"
     cur.execute(query)
+    print(cur.fetchall())
     t = cur.fetchall()
     cid = t[0][0]
     return cid

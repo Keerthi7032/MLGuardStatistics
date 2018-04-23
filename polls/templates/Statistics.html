@@ -25,7 +25,106 @@
                 overflow: auto !important;
                 font-family: montserrat, arial, verdana !important;
             }
+            .table {
+              width: 100%;
+              max-width: 100%;
+              margin-bottom: 1rem;
+              background-color: transparent;
+            }
+            .table th,
+            .table td {
+              padding: 0.75rem;
+              vertical-align: top;
+              border-top: 1px solid #e9ecef;
+            }
+            .table thead th {
+              vertical-align: bottom;
+              border-bottom: 2px solid #e9ecef;
+            }
+            .table tbody + tbody {
+              border-top: 2px solid #e9ecef;
+            }
+            .table .table {
+              background-color: #fff;
+            }
+            .table-sm th,
+            .table-sm td {
+              padding: 0.3rem;
+            }
+            .table-bordered {
+              border: 1px solid #e9ecef;
+            }
+            .table-bordered th,
+            .table-bordered td {
+              border: 1px solid #e9ecef;
+            }
+            .table-bordered thead th,
+            .table-bordered thead td {
+              border-bottom-width: 2px;
+            }
+            .table-striped tbody tr:nth-of-type(odd) {
+              background-color: rgba(0, 0, 0, 0.05);
         </style>
+
+        <script>
+            function change_years()
+            {
+                var year = $("#years option:selected").text();
+                var years_dict = {{ year|safe }};
+                var data = years_dict[year];
+                $("#show_year_data").empty();
+                $("#show_year_data").append('<tr>\
+                                                 <th><center>MLGuard Owner</center></th>\
+                                                 <th><center>Num. of Images</center></th>\
+                                                 </tr>');
+                for(var i=0; i<data.length; i++)
+                {
+                    $("#show_year_data").append('<tr>\
+                                                <td style="padding:10px"><center>' + data[i][0] + '</center></td>\
+                                                <td style="padding-bottom:20px"><center>'+ data[i][1] +'</center></td>\
+                                            </tr>');
+                }
+            }
+
+            function change_months()
+            {
+                var month = $("#months option:selected").text();
+                var months_dict = {{ month|safe }};
+                var data = months_dict[month];
+                $("#show_month_data").empty();
+                $("#show_month_data").append('<tr>\
+                                                 <th><center>MLGuard Owner</center></th>\
+                                                 <th><center>Num. of Images</center></th>\
+                                                 </tr>');
+                for(var i=0; i<data.length; i++)
+                {
+                    $("#show_month_data").append('<tr>\
+                                                <td style="padding:10px"><center>' + data[i][0] + '</center></td>\
+                                                <td style="padding-bottom:20px"><center>'+ data[i][1] +'</center></td>\
+                                            </tr>');
+                }
+            }
+
+            function change_days()
+            {
+                var day = $("#days option:selected").text();
+                var days_dict = {{ day|safe }};
+                console.log(day, days_dict);
+                var data = days_dict[day];
+                $("#show_days_data").empty();
+                $("#show_days_data").append('<tr>\
+                                                 <th><center>MLGuard Owner</center></th>\
+                                                 <th><center>Num. of Images</center></th>\
+                                                 </tr>');
+                for(var i=0; i<data.length; i++)
+                {
+                    $("#show_days_data").append('<tr>\
+                                                <td style="padding:10px"><center>' + data[i][0] + '</center></td>\
+                                                <td style="padding-bottom:20px"><center>'+ data[i][1] +'</center></td>\
+                                            </tr>');
+                }
+            }
+        </script>
     </head>
     <body>
 
@@ -40,7 +139,7 @@
                             <li role="presentation" class="active"><a href="#year" aria-controls="year" role="tab" data-toggle="tab">Year</a></li>
                             <li role="presentation"><a href="#month" aria-controls="month" role="tab" data-toggle="tab">Month</a></li>
                             <li role="presentation"><a href="#day" aria-controls="day" role="tab" data-toggle="tab">Day</a></li>
-                            <li role="presentation"><a href="#date" aria-controls="date" role="tab" data-toggle="tab">Date</a></li>
+                            <!--<li role="presentation"><a href="#date" aria-controls="date" role="tab" data-toggle="tab">Date</a></li>-->
                             <li role="presentation"><a href="#uptime" aria-controls="uptime" role="tab" data-toggle="tab">Up-Time</a></li>
                             <li role="presentation"><a href="#downtime" aria-controls="downtime" role="tab" data-toggle="tab">Down-Time</a></li>
                         </ul>
@@ -48,53 +147,74 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="year">
                                 <label for="years">Select a year  </label>
-                                <select id="years">
+                                <select id="years" onchange="return change_years();">
+                                    <option >Select a year</option>
                                     {% for keys, values in year.items %}
                                         <option>{{keys}}</option>
                                     {% endfor %}
                                 </select>
                                 <div style="margin-top:10px">
-                                    <center>
-                                        <table >
+                                    <div class="table-responsive">
+                                        <table id="show_year_data" class="table table-bordered table-striped">
                                             <thead>
-                                                <th>MlGuard</th>
-                                                <th>Num. of Images</th>
+                                                <tr>
+                                                    <th><center>MLGuard Owner</center></th>
+                                                    <th><center>Num. of Images</center></th>
+                                                </tr>
                                             </thead>
-                                            <tbody>
-                                                {% for key, values in year.items %}
-                                                    {% for value in values %}
-                                                    <tr>
-                                                        <td>{{value.0}}</td>
-                                                        <td>{{value.1}}</td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                {% endfor %}
-                                            </tbody>
                                         </table>
-                                    </center>
+                                    </div>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="month">
-                                <div class="table">
-                                    <center>
-                                        {{month|safe}}
-                                    </center>
+                                <label for="months">Select a month  </label>
+                                <select id="months" onchange="return change_months();">
+                                    <option >Select a month</option>
+                                    {% for keys, values in month.items %}
+                                        <option>{{keys}}</option>
+                                    {% endfor %}
+                                </select>
+                                <div style="margin-top:10px">
+                                    <div class="table-responsive">
+                                        <table id="show_month_data" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th><center>MLGuard Owner</center></th>
+                                                    <th><center>Num. of Images</center></th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="day">
-                                <div class="table">
-                                    <center>
-                                        {{day|safe}}
-                                    </center>
+                                <label for="days">Select a day  </label>
+                                <select id="days" onchange="return change_days();">
+                                    <option >Select a day</option>
+                                    {% for keys, values in day.items %}
+                                        <option>{{keys}}</option>
+                                    {% endfor %}
+                                </select>
+                                <div style="margin-top:10px">
+                                    <div class="table-responsive">
+                                        <table id="show_days_data" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th><center>MLGuard Owner</center></th>
+                                                    <th><center>Num. of Images</center></th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                            <div role="tabpanel" class="tab-pane" id="date">
-                                <div class="table">
-                                    <center>
-                                        {{date|safe}}
-                                    </center>
-                                </div>
-                            </div>
+                            <!--<div role="tabpanel" class="tab-pane" id="date">-->
+                                <!--<div class="table">-->
+                                    <!--<center>-->
+                                        <!--{{date|safe}}-->
+                                    <!--</center>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div role="tabpanel" class="tab-pane" id="uptime">
                                 <div class="table">
                                     <center>

@@ -22,4 +22,5 @@ urlpatterns = [
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^polls/', include('polls.urls')),
     url(r'^login/', polls_views.login, name="login"),
+    url(r'^logout/', polls_views.logout,name="logout"),
 ]
