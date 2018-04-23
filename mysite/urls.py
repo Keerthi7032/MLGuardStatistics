@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
-from polls import views
+from polls import views as polls_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.review, name='review'),
+    url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^polls/', include('polls.urls')),
+    url(r'^login/', polls_views.login, name="login"),
 ]

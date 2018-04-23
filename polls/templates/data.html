@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="{% static 'js/include.js' %}"></script>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.css' %}">
+        <style>
+            body
+            {
+                margin: 0 !important;
+                height: 100% !important;
+                overflow: auto !important;
+                font-family: montserrat, arial, verdana !important;
+                background: transparent !important;
+            }
+
+            #myImg {
+                border-radius: 5px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            #myImg:hover {opacity: 0.7;}
+
+            .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+            }
+
+            .modal-content {
+                margin: auto;
+                display: block;
+                width: 80%;
+                max-width: 700px;
+            }
+
+            #caption {
+                margin: auto;
+                display: block;
+                width: 80%;
+                max-width: 700px;
+                text-align: center;
+                color: #ccc;
+                padding: 10px 0;
+                height: 150px;
+            }
+
+            .modal-content, #caption {
+                animation-name: zoom;
+                animation-duration: 0.6s;
+            }
+
+            @keyframes zoom {
+                from {transform:scale(0)}
+                to {transform:scale(1)}
+            }
+
+            .close {
+                position: absolute;
+                top: 15px;
+                right: 35px;
+                color: white;
+                background-color: red;
+                padding : 5px;
+                font-size: 40px;
+                font-weight: bold;
+                transition: 0.3s;
+            }
+
+            .close:hover,
+            .close:focus {
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            @media only screen and (max-width: 700px){
+                .modal-content {
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+    <div id="wrapper">
+        <div w3-include-html="{% url 'mlguard_base' %}"></div>
+        <div class="row col-lg-12">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="cars_log" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th><center>Index</center></th>
+                                            <th><center>In Time</center></th>
+                                            <th><center>Image</center></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for entry in data %}
+                                            <tr>
+                                                <td><center>{{entry.0}}</center></td>
+                                                <td><center>{{entry.1}}</center></td>
+                                                <td><img  id="myImg" onclick="return enlarge(this)" src="data:;base64,{{entry.2}}" style="width:40px;height:40px" class="enlargeImageModalSource"/></td>
+                                                <div id="myModal" class="modal" role="dialog">
+                                                        <span class="close">&times;Close</span>
+                                                        <img class="modal-content" id="img01">
+                                                        <div id="caption"></div>
+                                                </div>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img id="photo"/>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'js/jquery-easing.min.js' %}"></script>
+    <script src="{% static 'js/sb-admin-2.js'%}"></script>
+    <script src="{% static 'js/metisMenu.min.js'%}"></script>
+    <script src="{% static 'js/jquery_datatable.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.datatable.min.js'%}"></script>
+
+    <script>
+        w3IncludeHTML();
+    </script>
+    <script>
+         function submit()
+         {
+            var data={};
+            fd = $("#fd").val();
+            td = $("#td").val();
+            data['fd'] = fd;
+            data['td'] = td;
+            $.ajax({
+                        type: "POST",
+                        url: '/polls/home/',
+                        data: JSON.stringify(data),
+                        success: function(response)
+                        {
+                            data = JSON.parse(response);
+                        }
+            });
+         }
+         $('#fd').change(function(){
+             submit();
+         });
+         $('#td').change(function(){
+             submit();
+         });
+        </script>
+        <script>
+            $(document).ready(function(){
+                $('#cars_log').DataTable();
+            });
+        </script>
+        <script>
+            var modal = document.getElementById('myModal');
+            var span = document.getElementsByClassName("close")[0];
+
+            span.onclick = function() {
+              modal.style.display = "none";
+            }
+            function enlarge(element)
+            {
+                modal.style.display = "block";
+                var modalImg = document.getElementById("img01");
+                modalImg.src = element.src;
+            }
+        </script>
+    </body>
+</html>

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls',
+    'social_django',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -115,7 +116,19 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_URL = '/static/'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '120823511146-19i4o1dqscl22oe6g7obd3o54d15uhds'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'H309lgvoNHYtNZsLoKRQfzy3'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/polls/home/'
+SOCIAL_AUTH_LOGIN_URL = '/polls/'

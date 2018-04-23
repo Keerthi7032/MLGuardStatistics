@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="{% static 'js/include.js' %}"></script>
+        <style>
+            body
+            {
+                margin: 0 !important;
+                height: 100% !important;
+                overflow: auto !important;
+                font-family: montserrat, arial, verdana !important;
+                background: transparent !important;
+            }
+        </style>
+        <script>
+            function get_data_ctm()
+            {
+                var data = {};
+
+                value = $("#ctm_fd").val();
+                data["fd"] = value;
+
+                value = $("#ctm_td").val();
+                data["td"] = value;
+            }
+
+            function submit_ctm(class_name)
+            {
+                data = get_data_ctm();
+                $.ajax({
+                        type: "POST",
+                        url: '/mlguard/gen_charts/',
+                        data: JSON.stringify(data),
+                        success: function(response)
+                        {
+                             data = JSON.parse(response);
+                             $("#sequence_chart_barchart").empty();
+                             $("#sequence_chart_boxchart").empty();
+                             $("#calculation_chart_barchart").append(data['ctm_calculations_bar_chart_data']);
+                             $("#calculation_chart_boxchart").append(data['ctm_calculations_box_chart_data']);
+                             delete data['ctm_sequence_bar_chart_data'];
+                             delete data['ctm_sequence_box_chart_data'];
+                        },
+                        error: function(jqXHR, exception) {
+
+                            console.log(exception);
+                        }
+                    });
+            }
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div w3-include-html="{% url 'mlguard_base' %}"></div>
+            <div class="col-lg-4"></div>
+            <div class="row col-lg-4" style="padding-top:30px">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th><center>From Date</center></th>
+                                <th><center>To Date</center></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <center>
+                                        <input type="text" id="ctm_fd">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                        </center>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <center>
+                                        <input type="text" id="ctm_td">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                        </center>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row col-lg-12">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+                    <div class="row">
+                        <div id="exTab1">
+                            <ul  class="nav nav-pills">
+                                <li class="active">
+                                    <a href="#1a" data-toggle="tab">Histogram</a>
+                                </li>
+                                <li>
+                                    <a href="#2a" data-toggle="tab">Line Graph</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content clearfix" style="overflow:auto;margin:0 auto;">
+                              <div class="tab-pane active" id="1a">
+                                    <center><div class="panel-body">{{ data.0|safe }}</div></center>
+                                </div>
+                                <div class="tab-pane" id="2a">
+                                    <center><div class="panel-body">{{ data.1|safe }}</div></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'js/jquery.min.js'%}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+        <script src="{% static 'js/jquery-easing.min.js' %}"></script>
+        <script src="{% static 'js/sb-admin-2.js'%}"></script>
+        <script src="{% static 'js/metisMenu.min.js'%}"></script>
+        <script src="{% static 'js/jquery-ui.js'%}"></script>
+        <script>
+            w3IncludeHTML();
+        </script>
+        <script>
+
+             $('#ctm_fd').change(function(){
+                 submit_ctm("yield_4");
+            });
+             $('#ctm_td').change(function(){
+                 submit_ctm("yield_4");
+            });
+
+            $(document).ready(function()
+            {
+                $('#brand').text('MLGuard Charts');
+                $("#ctm_fd").datepicker({ changeMonth: true, changeYear: true, yearRange: '2010:2030',dateFormat: "yy-mm-dd" });
+                $("#ctm_td").datepicker({ changeMonth: true, changeYear: true, yearRange: '2010:2030',dateFormat: "yy-mm-dd" });
+
+            });
+        </script>
+    </body>
+</html>
