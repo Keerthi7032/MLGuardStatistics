@@ -141,9 +141,9 @@ def get_connection():
 def get_cid(email):
     conn = get_connection()
     cur = conn.cursor()
-    query = "select cid from company where email='" + str(email) + "'"
+    query = "select cid from mlguard_admin where email='" + str(email) + "'"
     cur.execute(query)
-    print(cur.fetchall())
+    print(query)
     t = cur.fetchall()
     cid = t[0][0]
     return cid

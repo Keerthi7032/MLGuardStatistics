@@ -17,8 +17,8 @@ def review(request):
     return render_to_response('Statistics.html', {"year": h[0], "month": h[1], "day": h[2], "date": h[3], "uptime": h[4], "downtime": h[5]})
 
 def home(request):
-    # cid = reports.get_cid(request.user.email)
-    cid = 6
+    cid = reports.get_cid(request.user.email)
+    # cid = 6
     # print(cid)
     if request.method=="POST":
         data = json.loads(request.body.decode(encoding='UTF-8'))
@@ -37,6 +37,4 @@ def home(request):
 #     return render_to_response("mlguard_charts.html", {"data": data, "user": request.user.get_full_name})
 
 def mlguard_base(request):
-    # cid = reports.get_cid(request.user.email)
-    cid = 6
     return render_to_response("mlguard_base.html", {'user': request.user.get_full_name})

@@ -246,7 +246,14 @@
             w3IncludeHTML();
             $(document).ready(function()
             {
-                 $("#brand").text("MLGuard Statistics");
+                $("#brand").text("MLGuard Statistics");
+                document.getElementById('years').getElementsByTagName('option')[1].selected = 'selected';
+                document.getElementById('months').getElementsByTagName('option')[1].selected = 'selected';
+                document.getElementById('days').getElementsByTagName('option')[1].selected = 'selected';
+                change_years();
+                change_months();
+                change_days();
+
             });
         </script>
     </body>
