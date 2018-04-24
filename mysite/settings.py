@@ -26,7 +26,7 @@ SECRET_KEY = '(@oeqhk)1pbgqz#*^81k=d@)xnxe*m8a^wq_r20fe^wvxz9bm&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['107.180.71.58', 'localhost']
+ALLOWED_HOSTS = ['107.180.71.58', 'localhost','test.mlguard.com']
 
 
 # Application definition
@@ -128,7 +128,7 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_URL = '/static/'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '120823511146-19i4o1dqscl22oe6g7obd3o54d15uhds'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'H309lgvoNHYtNZsLoKRQfzy3'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'AIzaSyDL3r5HFrgnW7N5Mto_p9jOapYvZNGxFO8'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '5Irxz4R2C8BdO3BO3RQ7gR1a'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/polls/home/'
 SOCIAL_AUTH_LOGIN_URL = '/polls/'
