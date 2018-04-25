@@ -278,6 +278,11 @@ def get_months():
 
 def get_days():
     df = get_df_data()
-    lis = list(df['day'].unique())
-    days = {"days": lis}
+    year_df = df[df['year'] == 2018]
+    month_lis = year_df['month'].unique()
+    dict = {}
+    for i in month_lis:
+        month_df = year_df[year_df['month'] == i]
+        dict[i] =lis(month_df['day'].unique())
+    days = dict
     return days
