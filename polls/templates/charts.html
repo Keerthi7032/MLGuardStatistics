@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+    <head>
+        <script src="{% static 'js/include.js' %}"></script>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.css' %}">
+        <style>
+            body
+            {
+                margin: 0 !important;
+                height: 100% !important;
+                overflow: auto !important;
+                font-family: montserrat, arial, verdana !important;
+                background: transparent !important;
+            }
+        </style>
+        <script>
+            function get_users_data()
+            {
+                var data = {};
+                data["year"] = $("#year option:selected").text();
+                data["month"] = $("#month option:selected").text();
+                data["day"] = $("#day option:selected").text();
+                console.log(data);
+                $.ajax({
+                    type: "POST",
+                    url: '/polls/gen_charts/',
+                    data: JSON.stringify(data),
+                    success: function(response)
+                    {
+                         data = JSON.parse(response);
+                         $("#chart").empty();
+                         $("#chart").append(data);
+                    },
+                    error: function(jqXHR, exception) {
+
+                        console.log(exception);
+                    }
+                });
+            }
+
+            function get_days()
+            {
+                var month = $("#month option:selected").text();
+                var element = "";
+                var days = {{ days|safe }};
+                var day = days[month];
+                $("#day").empty();
+                for(var i=0; i<day.length; i++)
+                {
+                    element += '<option>' + day[i] + '</option>';
+                }
+                $("#day").append(element);
+                get_users_data();
+            }
+        </script>
+    </head>
+
+    <body style="overflow-y:auto !important;">
+        <div id="wrapper">
+            <div w3-include-html="{% url 'mlguard_base' %}">
+            </div>
+            <!--<div id="page-wrapper">-->
+            <div class="row col-lg-12">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+                    <div class="row" style="margin-top:100px">
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="panel panel-default col-lg-12">
+                                <center><h3 class="page-header" id="chart_header" hidden>Charts</h3></center>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped" id="id1">
+                                                <thead>
+                                                    <tr id="head">
+                                                        <th>User</th>
+                                                        <th>Year</th>
+                                                        <th>Month</th>
+                                                        <th>Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr id="body">
+                                                        <td>
+                                                            <select id="user" onchange="return get_users_data();">
+                                                                <option disabled>Select a User</option>
+                                                                {% for name in users %}
+                                                                    <option>{{name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select id="year" onchange="return get_users_data();">
+                                                                <option disabled>Select a Year</option>
+                                                                {% for i in years.years %}
+                                                                    <option>{{i}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select id="month" onchange="return get_days();">
+                                                                <option disabled>Select a Month</option>
+                                                                {% for month in months.months %}
+                                                                    <option>{{month}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select id="day">
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="chart">
+                                        {{chart_data.0|safe}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="{% static 'js/jquery.min.js'%}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js'%}"></script>
+        <script src="{% static 'js/jquery-easing.min.js' %}"></script>
+        <script src="{% static 'js/sb-admin-2.js'%}"></script>
+        <script src="{% static 'js/metisMenu.min.js'%}"></script>
+        <script src="{% static 'js/jquery_datatable.min.js'%}"></script>
+        <script src="{% static 'js/bootstrap.datatable.min.js'%}"></script>
+        <script>
+            w3IncludeHTML();
+            $(document).ready(function ()
+            {
+                get_days();
+            });
+        </script>
+    </body>
+
+</html>

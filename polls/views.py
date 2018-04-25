@@ -24,10 +24,30 @@ def home(request):
         data = reports.get_data(cid)
         return render_to_response("data.html", {"data": data, "user": request.user.get_full_name})
 
-# def gen_charts(request):
-#     cid = reports.get_cid(request.user.email)
-#     data = reports.gen_charts(cid)
-#     return render_to_response("mlguard_charts.html", {"data": data, "user": request.user.get_full_name})
+def charts(request):
+    users = reports.get_users()
+    years = reports.get_years()
+    months = reports.get_months()
+    days = reports.get_days()
+    return render_to_response("charts.html", {"users": users, "years": years, "months": months, "days": days})
+
+# def generate_charts(request):
+#     if request.method == "POST":
+#         selected_user = request.POST["selected_user"]
+#         selected_year = request.POST["selected_year"]
+#         selected_month = request.POST["selected_month"]
+#         selected_day = request.POST["selected_day"]
+#
+#         data = reports.get_chart_data(selected_user, selected_year, selected_month, selected_day)
 
 def mlguard_base(request):
     return render_to_response("mlguard_base.html", {'user': request.user.get_full_name})
+
+def gen_charts(request):
+    if request.method == "POST":
+        data = json.loads(request.body.decode(encoding='UTF-8'))
+        print(data)
+        chart_data = reports.get_chart_data(data)
+        return HttpResponse(json.dumps(chart_data))
+
+

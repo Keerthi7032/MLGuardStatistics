@@ -181,43 +181,99 @@ def get_data(cid):
             img_encoded = base64.b64encode(image_file.read())
 
         b[i][2] = img_encoded
-
-    # print(type(t[0][2]))
     return b
 
-# def get_hist_plot(df):
-#     df = df[(df['license_plate'] != str(-1))]
-#     x = df['license_plate']
-#     xaxis = dict(title='Car Numbers', titlefont=dict(family='sans serif', size=18, color='#7f7f7f'))
-#     yaxis = dict(title='Frequency', titlefont=dict(family='sans serif', size=18, color='#7f7f7f'))
-#     data = [go.Histogram(x=x)]
-#     layout = go.Layout(title="Individual Car Frequency Chart",xaxis = xaxis,yaxis = yaxis, height=500, width=1200)
-#     figure = go.Figure(data=data, layout=layout)
-#     return py.plot(figure,auto_open = True, output_type = 'div')
+def get_hist_plot(df, key):
+    print(df)
+    x = df[key]
+    print(x)
+    xaxis = dict(title='Years', titlefont=dict(family='sans serif', size=18, color='#7f7f7f'))
+    yaxis = dict(title='Count', titlefont=dict(family='sans serif', size=18, color='#7f7f7f'))
+    data = [go.Bar(y=[x[i][1] for i in range(len(x))], x=[x[i][0] for i in range(len(x))])]
+    layout = go.Layout(title="MLGuard Users Summary", xaxis=xaxis, yaxis=yaxis, height=500, width=1200)
+    figure = go.Figure(data=data, layout=layout)
+    return py.plot(figure,auto_open = True, output_type = 'div')
 
-# def gen_time_Series(df):
-#     l=list(df.columns)
-#     # df['in_time'] = pd.to_datetime(df['in_time'], format='%d-%m-%Y')
-#     y_axis = df.groupby('in_time').nunique()
-#     data = [go.Scatter(
-#         x=(df.in_time),
-#         y=y_axis[y_axis.columns[0]],
-#     )]
-#     xaxis = dict(title='Date and Time', titlefont=dict(family='sans serif', size=18, color='#7f7f7f'))
-#     yaxis = dict(title='Cars Count', titlefont=dict(family='sans serif', size=18, color='#7f7f7f'))
-#     layout = go.Layout(title = "Time Frequency Chart",xaxis = xaxis,yaxis = yaxis, height=500, width=1200)
-#     figure = go.Figure(data=data, layout= layout)
-#     return py.plot(figure,auto_open = False, output_type= 'div')
+    # data = [go.Bar(
+    #     x=['giraffes', 'orangutans', 'monkeys'],
+    #     y=[20, 14, 23]
+    # )]
+    #
+    # py.iplot(data, filename='basic-bar')
 
+def gen_charts(df,key):
+    l = []
+    div = get_hist_plot(df,key)
+    l.append(div)
+    return l
 
-# def gen_charts(cid):
+def get_users():
+    conn = get_connection()
+    cur = conn.cursor()
+    query = "select name from company"
+    cur.execute(query)
+    t = cur.fetchall()
+    users = [t[i][0] for i in range(len(t))]
+    return users
+
+# def get_chart_data(selected_user):
+#     # get cid of the selected user
+#     if(selected_user == "All"):
+#         where_clause = ""
+#     else:
+#         where_clause = " where name="+str(selected_user)
+#
 #     conn = get_connection()
-#     df = pd.read_sql("select * from cars_log where cid="+str(cid),conn)
-#     l = []
-#     div=get_hist_plot(df)
-#     div1=gen_time_Series(df)
-#     l.append(div)
-#     l.append(div1)
-#     return l
+#     cur = conn.cursor()
+#     query = "select cid from company where name=" + str(selected_user)
+#     cur.execute(query)
+#     t = cur.fetchall()
+#     cid = [t[i][0] for i in range(len(t))]
 
+def get_df_data():
+    conn = MySQLdb.connect(host="107.180.71.58", port=3306, user="root", passwd="root", db="mlcharts")
+    df = pd.read_sql("Select in_time,cid from faces_log", conn)
+    df['year'] = df['in_time'].dt.year
+    df['month'] = df['in_time'].dt.month.apply(lambda x: calendar.month_name[x])
+    df['day'] = df['in_time'].dt.day
+    df['time'] = df['in_time'].dt.hour
+    df['date'] = df['in_time'].dt.date
+    df.drop('in_time', axis=1, inplace=True)
+    return df
 
+def get_chart_data(selected_option):
+    df = get_df_data()
+    l = ['year', 'month', 'day', 'time', 'date']
+    df1 = get_for('year', df)
+    key=""
+    data={}
+
+    if(selected_option['day'] == '-1' and selected_option['month'] == '-1'):
+        data = df1
+        key = selected_option['year']
+    elif(selected_option['day'] == '-1'):
+        year_df = df[df['year'] == int(selected_option['year'])]
+        month_df = get_for('month', year_df)
+        data = month_df
+        key = selected_option['month']
+    else:
+        year_df = df[df['year'] == int(selected_option['year'])]
+        month_df = year_df[year_df['month'] == selected_option['month']]
+        df2 = get_for('day', month_df)
+        data = df2
+        key = int(selected_option['day'])
+
+    return gen_charts(data, key)
+
+def get_years():
+    df = get_df_data()
+    dic = {"years": df['year'].unique()}
+    return dic
+
+def get_months():
+    months = {"months":["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]}
+    return months
+
+def get_days():
+    days = {"January": list(range(1,32)), "February": list(range(1,28)), "March": list(range(1,28)), "April": list(range(1,28)), "May": list(range(1,28)), "June": list(range(1,28)), "July": list(range(1,28)), "August": list(range(1,28)), "September": list(range(1,28)), "October": list(range(1,28)), "November": list(range(1,28)), "December": list(range(1,28))}
+    return days

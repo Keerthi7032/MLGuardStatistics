@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^review/$', views.review, name='review'),
     url(r'^base/$', views.mlguard_base, name="mlguard_base"),
     url(r'^home/$', views.home, name="home"),
-    # url(r'^gen_charts/$', views.gen_charts, name="gen_charts"),
+    url(r'^charts/$', views.charts, name="charts"),
+    url(r'^gen_charts/$', views.gen_charts, name="gen_charts"),
 ]
