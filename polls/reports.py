@@ -184,9 +184,9 @@ def get_data(cid):
     return b
 
 def get_hist_plot(df, key):
-    print(df)
+    # print(df)
     x = df[key]
-    print(x)
+    # print(x)
     xaxis = dict(title='Years', titlefont=dict(family='sans serif', size=18, color='#7f7f7f'))
     yaxis = dict(title='Count', titlefont=dict(family='sans serif', size=18, color='#7f7f7f'))
     data = [go.Bar(y=[x[i][1] for i in range(len(x))], x=[x[i][0] for i in range(len(x))])]
@@ -260,6 +260,7 @@ def get_chart_data(selected_option):
         year_df = df[df['year'] == int(selected_option['year'])]
         month_df = year_df[year_df['month'] == selected_option['month']]
         df2 = get_for('day', month_df)
+        print(df2)
         month = selected_option['month']
         days = get_days()
         days_list = days[month]
@@ -267,7 +268,7 @@ def get_chart_data(selected_option):
             if i not in df2.keys():
                 df2[i]=0
         data = df2
-        key = int(selected_option['day'])
+        key = selected_option['day']
 
     return gen_charts(data, key)
 
