@@ -46,6 +46,23 @@
             {
                 get_users_data();
             }
+
+            function add_days()
+            {
+                var months = {{ days|safe }};
+                var month = $("#month option:selected").text();
+                var days = months[month];
+
+                element = '';
+                $("#day").empty();
+                for(var i=0; i<days.length; i++)
+                {
+                    element += '<option>' + days[i] + '</option>';
+                }
+                $("#day").append(element);
+
+                get_users_data();
+            }
         </script>
     </head>
 
@@ -85,7 +102,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select id="month" onchange="return get_users_data();">
+                                        <select id="month" onchange="return add_days();">
                                             <option disabled>Select a Month</option>
                                             <option>All</option>
                                             {% for month in months.months %}
