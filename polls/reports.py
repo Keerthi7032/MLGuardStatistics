@@ -278,7 +278,9 @@ def get_years():
     return dic
 
 def get_months():
-    months = {"months":["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]}
+    df = get_df_data()
+    lis = list(df['month'].unique())
+    months = {"months":lis}
     return months
 
 def get_days():
