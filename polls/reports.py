@@ -1,6 +1,7 @@
 import pandas as pd
 import MySQLdb
 from datetime import datetime
+import calendar
 from collections import OrderedDict
 import base64
 from io import BytesIO
@@ -54,7 +55,7 @@ def get():
     conn = MySQLdb.connect(host="107.180.71.58", port=3306, user="root", passwd="root", db="mlcharts")
     df=pd.read_sql("Select in_time,cid from faces_log",conn)
     df['year'] = df['in_time'].dt.year
-    df['month'] = df['in_time'].dt.month
+    df['month'] = df['in_time'].dt.month.apply(lambda x: calendar.month_name[x])
     df['day'] = df['in_time'].dt.day
     df['time'] = df['in_time'].dt.hour
     df['date'] = df['in_time'].dt.date
@@ -70,7 +71,7 @@ def get():
     div.append(df4)
 
     # get uptime of all MLGuards
-    query = "SELECT cid, last_uptime FROM uptime"
+    query = "SELECT name, last_uptime FROM uptime"
     uptime_df = pd.read_sql(query, conn)
     div.append(uptime_df.to_html())
 

@@ -13,21 +13,14 @@ def logout(request):  #for logout
 
 def review(request):
     h = reports.get()
-    # print(h[2])
     return render_to_response('Statistics.html', {"year": h[0], "month": h[1], "day": h[2], "date": h[3], "uptime": h[4], "downtime": h[5]})
 
 def home(request):
     cid = reports.get_cid(request.user.email)
-    # cid = 6
-    # print(cid)
     if request.method=="POST":
-        data = json.loads(request.body.decode(encoding='UTF-8'))
-        # f = data['fd']
-        # t = data['td']
         response = reports.get_data(cid)
         return HttpResponse(response)
     else:
-        # f, t = reports.get_min_max_date(cid)
         data = reports.get_data(cid)
         return render_to_response("data.html", {"data": data, "user": request.user.get_full_name})
 
