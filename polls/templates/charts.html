@@ -42,18 +42,8 @@
                 });
             }
 
-            function get_days()
+            function get_full_data()
             {
-                var month = $("#month option:selected").text();
-                var element = "";
-                var days = {{ days|safe }};
-                var day = days[month];
-                $("#day").empty();
-                for(var i=0; i<day.length; i++)
-                {
-                    element += '<option>' + day[i] + '</option>';
-                }
-                $("#day").append(element);
                 get_users_data();
             }
         </script>
@@ -70,7 +60,7 @@
                         <table class="table table-bordered table-striped" id="id1">
                             <thead>
                                 <tr id="head">
-                                    <th>User</th>
+                                    <!--<th>User</th>-->
                                     <th>Year</th>
                                     <th>Month</th>
                                     <th>Date</th>
@@ -78,14 +68,14 @@
                             </thead>
                             <tbody>
                                 <tr id="body">
-                                    <td>
-                                        <select id="user" onchange="return get_users_data();">
-                                            <option disabled>Select a User</option>
-                                            {% for name in users %}
-                                                <option>{{name}}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </td>
+                                    <!--<td>-->
+                                        <!--<select id="user" onchange="return get_users_data();">-->
+                                            <!--<option disabled>Select a User</option>-->
+                                            <!--{% for name in users %}-->
+                                                <!--<option>{{name}}</option>-->
+                                            <!--{% endfor %}-->
+                                        <!--</select>-->
+                                    <!--</td>-->
                                     <td>
                                         <select id="year" onchange="return get_users_data();">
                                             <option disabled>Select a Year</option>
@@ -95,8 +85,9 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select id="month" onchange="return get_days();">
+                                        <select id="month" onchange="return get_users_data();">
                                             <option disabled>Select a Month</option>
+                                            <option>All</option>
                                             {% for month in months.months %}
                                                 <option>{{month}}</option>
                                             {% endfor %}
@@ -104,6 +95,11 @@
                                     </td>
                                     <td>
                                         <select id="day" onchange="return get_users_data();">
+                                            <option disabled>Select a Month</option>
+                                            <option>All</option>
+                                            {% for day in days.days %}
+                                                <option>{{day}}</option>
+                                            {% endfor %}
                                         </select>
                                     </td>
                                 </tr>
@@ -131,7 +127,7 @@
             w3IncludeHTML();
             $(document).ready(function ()
             {
-                get_days();
+                get_full_data();
             });
         </script>
     </body>

@@ -248,10 +248,10 @@ def get_chart_data(selected_option):
     key=""
     data={}
 
-    if(selected_option['day'] == '-1' and selected_option['month'] == '-1'):
+    if(selected_option['day'] == 'All' and selected_option['month'] == 'All'):
         data = df1
         key = selected_option['year']
-    elif(selected_option['day'] == '-1'):
+    elif(selected_option['day'] == 'All'):
         year_df = df[df['year'] == int(selected_option['year'])]
         month_df = get_for('month', year_df)
         data = month_df
@@ -280,4 +280,5 @@ def get_days():
     df = get_df_data()
     lis = list(df['day'].unique())
     days = {"days": lis}
+    print(days)
     return days
