@@ -260,6 +260,12 @@ def get_chart_data(selected_option):
         year_df = df[df['year'] == int(selected_option['year'])]
         month_df = year_df[year_df['month'] == selected_option['month']]
         df2 = get_for('day', month_df)
+        month = selected_option['month']
+        days = get_days()
+        days_list = days[month]
+        for i in days_list:
+            if i not in df2.keys():
+                df2[i]=0
         data = df2
         key = int(selected_option['day'])
 
@@ -275,5 +281,5 @@ def get_months():
     return months
 
 def get_days():
-    days = {"January": list(range(1,32)), "February": list(range(1,28)), "March": list(range(1,28)), "April": list(range(1,28)), "May": list(range(1,28)), "June": list(range(1,28)), "July": list(range(1,28)), "August": list(range(1,28)), "September": list(range(1,28)), "October": list(range(1,28)), "November": list(range(1,28)), "December": list(range(1,28))}
+    days = {"January": list(range(1,32)), "February": list(range(1,28)), "March": list(range(1,32)), "April": list(range(1,31)), "May": list(range(1,32)), "June": list(range(1,31)), "July": list(range(1,32)), "August": list(range(1,32)), "September": list(range(1,31)), "October": list(range(1,32)), "November": list(range(1,31)), "December": list(range(1,32))}
     return days
