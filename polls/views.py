@@ -13,7 +13,7 @@ def logout(request):  #for logout
 
 def review(request):
     h = reports.get()
-    return render_to_response('Statistics.html', {"year": h[0], "month": h[1], "day": h[2], "date": h[3], "uptime": h[4], "downtime": h[5]})
+    return render_to_response('Statistics.html', {"year": h[0], "month": h[1], "day": h[2], "date": h[3], "uptime": h[4], "downtime": h[5], "camera_status": h[6]})
 
 def home(request):
     cid = reports.get_cid(request.user.email)

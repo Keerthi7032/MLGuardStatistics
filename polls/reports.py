@@ -77,6 +77,7 @@ def get():
 
     # get downtime of all MLGuards
     div.append(check_status())
+    div.append(check_camera_status())
     return div
 
 
@@ -287,3 +288,11 @@ def get_days():
     days = dict
     print(days)
     return days
+
+# --------------------    Check camera status   ------------------------------
+
+def check_camera_status():
+    query = "SELECT cid, status FROM check_camera"
+    conn = MySQLdb.connect(host="107.180.71.58", port=3306, user="root", passwd="root", db="mlcharts")
+    df = pd.read_sql(query, conn)
+    return df.to_html()

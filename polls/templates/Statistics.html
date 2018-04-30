@@ -142,6 +142,7 @@
                             <!--<li role="presentation"><a href="#date" aria-controls="date" role="tab" data-toggle="tab">Date</a></li>-->
                             <li role="presentation"><a href="#uptime" aria-controls="uptime" role="tab" data-toggle="tab">Up-Time</a></li>
                             <li role="presentation"><a href="#downtime" aria-controls="downtime" role="tab" data-toggle="tab">Down-Time</a></li>
+                            <li role="presentation"><a href="#camerastatus" aria-controls="downtime" role="tab" data-toggle="tab">Camera Status</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -218,14 +219,21 @@
                             <div role="tabpanel" class="tab-pane" id="uptime">
                                 <div class="table">
                                     <center>
-                                        {{uptime|safe}}
+                                        {{ uptime|safe }}
                                     </center>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="downtime">
                                 <div class="table">
                                     <center>
-                                        {{downtime|safe}}
+                                        {{ downtime|safe }}
+                                    </center>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="camerastatus">
+                                <div class="table">
+                                    <center>
+                                        {{ camera_status|safe }}
                                     </center>
                                 </div>
                             </div>
