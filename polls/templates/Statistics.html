@@ -211,17 +211,12 @@
 
             function set_zone()
             {
-                var obj = {{ camera_status|safe }};
+                var obj = {{ camera_status_recordedtime|safe }};
                 console.log(obj);
-                $("#datetime").empty();
                 for(var i=0; i<obj.length; i++)
                 {
-                    $("#datetime").append('<tr>\
-                                                <td style="padding:10px"><center>' + obj[i][3] + '</center></td>\
-                                                <td style="padding-bottom:20px"><center>'+ obj[i][3] +'</center></td>\
-                                            </tr>');
+                    $("#camera_status").append('<tr><td><center>' + obj[i] + '</center></td></tr>');
                 }
-
             }
         </script>
     </head>
@@ -331,7 +326,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane" id="camerastatus">
                                 <div class="table-responsive">
-                                    <table id="cars_log" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="camera_status" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th><center>CID</center></th>
@@ -351,7 +346,6 @@
                                                             <img class="modal-content" id="img01">
                                                             <div id="caption"></div>
                                                     </div>
-                                                    <td id="datetime"></td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
