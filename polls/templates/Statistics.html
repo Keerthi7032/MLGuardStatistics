@@ -213,9 +213,10 @@
             {
                 var obj = {{ camera_status_recordedtime|safe }};
                 console.log(obj);
-                for(var i=1; i<=obj.length; i++)
+                for(var i=0; i<obj.length; i++)
                 {
-                    $("#"+i).append('<center>' + obj[i] + '</center>');
+                    j = i + 1;
+                    $("#"+j).append('<center>' + obj[i] + '</center>');
                 }
             }
         </script>
