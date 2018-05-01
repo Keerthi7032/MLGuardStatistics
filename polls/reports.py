@@ -296,19 +296,7 @@ def get_days():
 def check_camera_status():
     conn = get_connection()
     cur = conn.cursor()
-    query = "SELECT cid, status, image FROM check_camera"
+    query = "SELECT cid, status, image, in_time FROM check_camera"
     cur.execute(query)
     t = cur.fetchall()
-
-    # b = [list(x) for x in t]
-    # for i in range(len(b)):
-    #     file_like = BytesIO(b[i][2])
-    #     img = Image.open(file_like)
-    #     img.save("retrieved_image.jpg")
-    #
-    #     image_file = "retrieved_image.jpg"
-    #     with open("retrieved_image.jpg", "rb") as image_file:
-    #         img_encoded = base64.b64encode(image_file.read())
-    #
-    #     b[i][2] = img_encoded
     return t
