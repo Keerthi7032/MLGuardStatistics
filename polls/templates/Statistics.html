@@ -215,8 +215,16 @@
                 console.log(obj);
                 for(var i=0; i<obj.length; i++)
                 {
-                    j = i + 1;
-                    $("#"+j).append('<center>' + obj[i] + '</center>');
+                    var j = i + 1;
+                    if(obj[i] != "None")
+                    {
+                        var date = new Date(obj[i]);
+                        $("#"+j).append('<center>' + date + '</center>');
+                    }
+                    else
+                    {
+                        $("#"+j).append('<center>' + obj[i] + '</center>');
+                    }
                 }
             }
         </script>
