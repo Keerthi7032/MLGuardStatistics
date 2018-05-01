@@ -283,5 +283,19 @@
                 change_days();
             });
         </script>
+        <script>
+            var modal = document.getElementById('myModal');
+            var span = document.getElementsByClassName("close")[0];
+
+            span.onclick = function() {
+              modal.style.display = "none";
+            }
+            function enlarge(element)
+            {
+                modal.style.display = "block";
+                var modalImg = document.getElementById("img01");
+                modalImg.src = element.src;
+            }
+        </script>
     </body>
 </html>
