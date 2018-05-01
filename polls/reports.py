@@ -77,6 +77,8 @@ def get():
 
     # get downtime of all MLGuards
     div.append(check_status())
+
+    #get camera status of all MLGuards
     div.append(check_camera_status())
     return div
 
@@ -292,7 +294,21 @@ def get_days():
 # --------------------    Check camera status   ------------------------------
 
 def check_camera_status():
-    query = "SELECT cid, status FROM check_camera"
-    conn = MySQLdb.connect(host="107.180.71.58", port=3306, user="root", passwd="root", db="mlcharts")
-    df = pd.read_sql(query, conn)
-    return df.to_html()
+    conn = get_connection()
+    cur = conn.cursor()
+    query = "SELECT cid, status, image FROM check_camera"
+    cur.execute(query)
+    t = cur.fetchall()
+
+    # b = [list(x) for x in t]
+    # for i in range(len(b)):
+    #     file_like = BytesIO(b[i][2])
+    #     img = Image.open(file_like)
+    #     img.save("retrieved_image.jpg")
+    #
+    #     image_file = "retrieved_image.jpg"
+    #     with open("retrieved_image.jpg", "rb") as image_file:
+    #         img_encoded = base64.b64encode(image_file.read())
+    #
+    #     b[i][2] = img_encoded
+    return t
