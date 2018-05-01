@@ -215,7 +215,7 @@
                 console.log(obj);
                 for(var i=0; i<obj.length; i++)
                 {
-                    $("#camera_status").append('<tr><td><center>' + obj[i] + '</center></td></tr>');
+                    $("#camera_status_row").append('<center>' + obj[i] + '</center>');
                 }
             }
         </script>
@@ -346,6 +346,7 @@
                                                             <img class="modal-content" id="img01">
                                                             <div id="caption"></div>
                                                     </div>
+                                                    <td id="camera_status_row"></td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
