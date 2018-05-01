@@ -14,7 +14,7 @@ def logout(request):  #for logout
 def review(request):
     h = reports.get()
     camera_status = h[6]
-    recorded_time = [camera_status[i][3] for i in range(len(camera_status))]
+    recorded_time = [str(camera_status[i][3]) for i in range(len(camera_status))]
     return render_to_response('Statistics.html', {"year": h[0], "month": h[1], "day": h[2], "date": h[3], "uptime": h[4], "downtime": h[5], "camera_status": h[6], 'camera_status_recordedtime': recorded_time})
 
 def home(request):
