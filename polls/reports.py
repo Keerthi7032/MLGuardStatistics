@@ -8,7 +8,10 @@ from io import BytesIO
 from PIL import Image
 import plotly.offline as py
 import plotly.graph_objs as go
+import requests
 
+import pytz
+from django.utils import timezone
 
 def get_for(st,df):
     company={}

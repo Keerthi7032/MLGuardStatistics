@@ -208,6 +208,21 @@
                                             </tr>');
                 }
             }
+
+            function set_zone()
+            {
+                var obj = {{ camera_status }};
+                console.log(obj);
+                $("#datetime").empty();
+                for(var i=0; i<obj.length; i++)
+                {
+                    $("#datetime").append('<tr>\
+                                                <td style="padding:10px"><center>' + obj[i][3] + '</center></td>\
+                                                <td style="padding-bottom:20px"><center>'+ obj[i][3] +'</center></td>\
+                                            </tr>');
+                }
+
+            }
         </script>
     </head>
     <body>
@@ -336,7 +351,7 @@
                                                             <img class="modal-content" id="img01">
                                                             <div id="caption"></div>
                                                     </div>
-                                                    <td><center>{{entry.3}}</center></td>
+                                                    <td id="datetime"></td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
@@ -367,6 +382,7 @@
                 change_years();
                 change_months();
                 change_days();
+                set_zone();
             });
         </script>
         <script>
