@@ -211,7 +211,7 @@
 
             function set_zone()
             {
-                var obj = {{ camera_status }};
+                var obj = {{ camera_status|safe }};
                 console.log(obj);
                 $("#datetime").empty();
                 for(var i=0; i<obj.length; i++)
