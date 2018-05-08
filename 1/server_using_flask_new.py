@@ -79,36 +79,54 @@ app = Flask(__name__)
 # route http posts to this method
 @app.route('/api/test', methods=['POST'])
 def test():
-	try:
-		data = pickle.loads(request.data)
-		cid = int(data['cid'])
+	data = pickle.loads(request.data)
+	list_keys = data.keys()
+	if('img' in list_keys):
+		try:
+			cid = int(data['cid'])
 
-		# # decode image
-		img = base64.b64decode(data['img'])
-		file_like = BytesIO(img)
-		img = Image.open(file_like)
-		present_time = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
-		filename = "../images/"+present_time +".jpg"
-		img.save(filename)
-		# do some fancy processing here....
+			# # decode image
+			img = base64.b64decode(data['img'])
+			file_like = BytesIO(img)
+			img = Image.open(file_like)
+			present_time = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+			filename = "../images/"+present_time +".jpg"
+			img.save(filename)
+			# do some fancy processing here....
 
-		# build a response dict to send back to client
-		response = {'message': 'image received'}
+			# build a response dict to send back to client
+			response = {'message': 'image received'}
 
-		# encode response using json
-		response_pickled = json.dumps(response)
-		print("Image Recieved")
+			# encode response using json
+			response_pickled = json.dumps(response)
+			print("Image Recieved")
 
-		if(int(data['flag']) == 0):
-			log_in_db(filename, cid)
-		else:
-			log_in_db_cam_status(filename, cid)
-		thread = Thread(target = sendImage, args = (filename,cid))
-		thread.start()
+			if(int(data['flag']) == 0):
+				log_in_db(filename, cid)
+			else:
+				log_in_db_cam_status(filename, cid)
+			thread = Thread(target = sendImage, args = (filename,cid))
+			thread.start()
 
-		return Response(response=response_pickled, status=200, mimetype="application/json")
-	except Exception as e:
-		logger.error(e)	
+			return Response(response=response_pickled, status=200, mimetype="application/json")
+		except Exception as e:
+			logger.error(e)	
+	elif('update' in list_keys):
+		try:
+			result = os.system("git rev-parse HEAD")
+			if(result == data['git']):
+				response = {'message': 'False'}
+				response_pickled = json.dumps(response)
+				return Response(response=response_pickled, status=400, mimetype="application/json")
+			else:
+				response = {'message': 'True'}
+				response_pickled = json.dumps(response)
+				return Response(response=response_pickled, status=200, mimetype="application/json")
+		except Exception as e:
+			logger.error(e)
+	else:
+		pass
+		
 
 # start flask app
 app.run(host="107.180.71.58", port=5000)
